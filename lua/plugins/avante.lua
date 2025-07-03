@@ -13,6 +13,16 @@ return {
         api_key_name = "DEEPSEEK_API_KEY",
         endpoint = "http://127.0.0.1:1234/v1",
         model = "deepseek/deepseek-r1-0528-qwen3-8b",
+        -- timeout = 30000,
+        disable_tools = true,
+        extra_request_body = {
+          -- temperature = 0,
+          -- max_tokens = 8192,
+          -- This is an example of how to add extra request body parameters
+          -- You can add any parameters that your provider supports
+          -- For example, you can add "reasoning_effort" for reasoning models
+          -- reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        },
       },
     },
 
