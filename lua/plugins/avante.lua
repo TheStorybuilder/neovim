@@ -3,55 +3,48 @@ return {
   event = "VeryLazy",
   version = false, -- Never set this value to "*"! Never!
   opts = {
-    -- add any opts here
-    -- for example
-    provider = "deepseek",
-
     providers = {
       deepseek = {
         __inherited_from = "openai",
         api_key_name = "DEEPSEEK_API_KEY",
         endpoint = "http://127.0.0.1:1234/v1",
         model = "deepseek/deepseek-r1-0528-qwen3-8b",
-        -- timeout = 30000,
-        disable_tools = true,
         extra_request_body = {
-          -- temperature = 0,
-          -- max_tokens = 8192,
-          -- This is an example of how to add extra request body parameters
-          -- You can add any parameters that your provider supports
-          -- For example, you can add "reasoning_effort" for reasoning models
-          -- reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+          disable_tools = true,
+          temperature = 0,
+          max_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+          reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        },
+      },
+      ollama = {
+        __inherited_from = "openai",
+        api_key_name = "",
+        endpoint = "http://127.0.0.1:1234/v1",
+        model = "hermes-3-llama-3.2-3b",
+        extra_request_body = {
+          disable_tools = true,
+          temperature = 0,
+          max_tokens = 8192,
+          reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        },
+      },
+      gemini = {
+        endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
+        model = "gemini-2.0-flash", -- your desired model (or use gpt-4o, etc.)
+        extra_request_body = {
+          disable_tools = true,
+          temperature = 0,
+          max_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+          --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
         },
       },
     },
-
-    ollama = {
-      __inherited_from = "openai",
-      api_key_name = "",
-      endpoint = "http://127.0.0.1:1234/v1",
-      model = "hermes-3-llama-3.2-3b",
-      disable_tools = true,
-      -- timeout = 30000,
-      -- temperature = 0,
-      -- max_tokens = 8192,
-    },
-
     behaviour = {
       auto_suggestions = false,
       auto_set_highlight_group = true,
       auto_set_keymaps = true,
       auto_apply_diff_after_generation = false,
       support_paste_from_clipboard = false,
-    },
-
-    gemini = {
-      endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
-      model = "gemini-2.0-flash", -- your desired model (or use gpt-4o, etc.)
-      timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-      temperature = 0,
-      max_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-      --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

@@ -3,3 +3,5 @@
 -- Exit Insert Mode
 -- Add any additional keymaps here
 vim.keymap.set("i", "jj", "<Esc>", { noremap = false, desc = "Esc" })
+vim.keymap.set("n", "gh", "^", { noremap = false, desc = "Jump to First Char" })
+vim.keymap.set("n", "gl", "$", { noremap = false, desc = "Jump to Last Char" })
