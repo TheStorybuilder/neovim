@@ -4,6 +4,21 @@ return {
   ft = { "rust" },
   opts = {
     -- Explicitly set the path to rust-analyzer
+    -- Pass options directly to rust-analyzer
+    -- server = {
+    --   -- Turn off all inlay hints
+    --   inlayHints = {
+    --     bindingModeHints = { enable = false },
+    --     chainingHints = { enable = false },
+    --     closureCaptureHints = { enable = false },
+    --     closureParameterHints = { enable = false },
+    --     discriminantHints = { enable = false },
+    --     fieldOffsetHints = { enable = false },
+    --     lifetimeElisionHints = { enable = false },
+    --     parameterHints = { enable = false },
+    --     typeHints = { enable = false },
+    --   },
+    -- },
     tools = {
       rust_analyzer = {
         server = {
