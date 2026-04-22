@@ -46,6 +46,15 @@ return {
       auto_apply_diff_after_generation = false,
       support_paste_from_clipboard = false,
     },
+    mappings = {
+      ask = "<leader>aa",
+      edit = "<leader>ae",
+      refresh = "<leader>ar",
+      submit = {
+        normal = "<CR>",
+        insert = "<C-s>",
+      },
+    },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = "make",

@@ -1,5 +1,6 @@
 return {
   "zbirenbaum/copilot.lua", -- Ensure the plugin is loaded
+  enabled = false,
   event = "VeryLazy",
   keys = {
     {
