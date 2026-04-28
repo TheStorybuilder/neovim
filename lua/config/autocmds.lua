@@ -11,25 +11,43 @@
 -- bindings in ~/.tmux.conf can dispatch C-h/j/k/l correctly even when nvim
 -- is launched under wrappers (Kiro, Amazon Q, etc.) that mask the foreground
 -- process name from `ps`.
+local function trim(s)
+  return (s or ""):gsub("^%s+", ""):gsub("%s+$", "")
+end
+
 local function tmux_pane_id()
-  local pane = vim.env.TMUX_PANE
-  if pane and pane ~= "" then
+  local pane = trim(vim.env.TMUX_PANE)
+  if pane ~= "" then
     return pane
   end
+  -- Wrappers like the Kiro CLI strip $TMUX_PANE from child envs; ask tmux.
   local out = vim.fn.system({ "tmux", "display-message", "-p", "#{pane_id}" })
   if vim.v.shell_error ~= 0 then
     return nil
   end
-  out = (out or ""):gsub("%s+$", "")
+  out = trim(out)
   return out ~= "" and out or nil
 end
 
+local function inside_tmux()
+  if trim(vim.env.TMUX) ~= "" then
+    return true
+  end
+  -- $TMUX may also be stripped by wrappers; treat tmux as available iff
+  -- `tmux display-message` succeeds.
+  vim.fn.system({ "tmux", "display-message", "-p", "#{pane_id}" })
+  return vim.v.shell_error == 0
+end
+
 local function set_tmux_is_vim(value)
-  if vim.env.TMUX == nil or vim.env.TMUX == "" then
+  if not inside_tmux() then
     return
   end
   local pane = tmux_pane_id()
   if not pane then
+    vim.schedule(function()
+      vim.notify("tmux @is_vim: could not resolve pane id", vim.log.levels.WARN)
+    end)
     return
   end
   local args = value
@@ -62,6 +80,11 @@ vim.api.nvim_create_autocmd({ "VimLeave", "VimSuspend" }, {
     set_tmux_is_vim(false)
   end,
 })
+
+-- LazyVim sources this file at VeryLazy, which fires AFTER VimEnter, so the
+-- VimEnter autocmd above wouldn't run for the current session. Call once now
+-- so @is_vim is set immediately on every nvim startup.
+set_tmux_is_vim(true)
 
 --Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
