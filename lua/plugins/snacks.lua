@@ -4,6 +4,26 @@ return {
     "folke/snacks.nvim",
     ---@type snacks.Config
     opts = {
+      explorer = {
+        keys = {
+          ["<C-h>"] = false,
+          ["<C-l>"] = false,
+          ["<C-H>"] = false,
+          ["<C-L>"] = false,
+        },
+      },
+      picker = {
+        win = {
+          input = {
+            keys = {
+              ["<C-h>"] = false,
+              ["<C-l>"] = false,
+              ["<C-H>"] = false,
+              ["<C-L>"] = false,
+            },
+          },
+        },
+      },
       image = {
         ---@class snacks.image.Config
         ---@field enabled? boolean enable image viewer
